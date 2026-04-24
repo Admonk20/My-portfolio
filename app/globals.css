@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink-950: #06010f;
+  --ink-900: #0a0118;
+  --ink-800: #120627;
+  --ink-700: #1a0a2e;
+  --mist-lavender: #d6bcfa;
+  --mist-rose: #f3d9f5;
+  --mist-mint: #b8e8d2;
+  --moon-silver: #d6d3e3;
+  --moon-gold: #f5e6c8;
+  --moon-pearl: #f8f5ff;
+}
+
+html,
+body {
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(214, 188, 250, 0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(184, 232, 210, 0.08), transparent 55%),
+    linear-gradient(180deg, #06010f 0%, #0a0118 40%, #120627 100%);
+  color: var(--moon-pearl);
+  min-height: 100%;
+  font-feature-settings: "ss01", "cv11";
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(214, 188, 250, 0.35);
+  color: #fff;
+}
+
+/* Thin, ethereal scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(214, 188, 250, 0.4), rgba(243, 217, 245, 0.25));
+  border-radius: 9999px;
+}
+
+@layer components {
+  .ethereal-text {
+    background: linear-gradient(
+      90deg,
+      #f8f5ff 0%,
+      #d6bcfa 35%,
+      #f3d9f5 55%,
+      #f5e6c8 75%,
+      #f8f5ff 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 8s linear infinite;
+  }
+
+  .glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border: 1px solid rgba(214, 188, 250, 0.18);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 10px 40px rgba(10, 1, 24, 0.4);
+  }
+
+  .glass-strong {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(214, 188, 250, 0.04) 100%
+    );
+    border: 1px solid rgba(214, 188, 250, 0.25);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+  }
+
+  .halo {
+    position: relative;
+  }
+  .halo::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(214, 188, 250, 0.6),
+      rgba(243, 217, 245, 0.3),
+      rgba(245, 230, 200, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  .btn-ethereal {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-medium tracking-wide transition-all duration-300;
+    background: linear-gradient(
+      135deg,
+      rgba(214, 188, 250, 0.25),
+      rgba(243, 217, 245, 0.18)
+    );
+    border: 1px solid rgba(245, 230, 200, 0.4);
+    color: var(--moon-pearl);
+    backdrop-filter: blur(12px);
+  }
+  .btn-ethereal:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(
+      135deg,
+      rgba(214, 188, 250, 0.4),
+      rgba(245, 230, 200, 0.3)
+    );
+    box-shadow:
+      0 0 30px rgba(214, 188, 250, 0.45),
+      0 0 60px rgba(243, 217, 245, 0.2);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 font-medium tracking-wide transition-all duration-300;
+    border: 1px solid rgba(214, 211, 227, 0.25);
+    color: var(--moon-silver);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(245, 230, 200, 0.55);
+    color: var(--moon-pearl);
+  }
+
+  .section-heading {
+    @apply font-display text-4xl sm:text-5xl md:text-6xl tracking-tight;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    @apply text-xs tracking-[0.3em] uppercase;
+    color: var(--moon-gold);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
