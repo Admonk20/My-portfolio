@@ -7,6 +7,14 @@ The site blends four ethereal moods — celestial, misty pastels, moonlit dark,
 and airy/angelic — into a single dreamscape: animated starfield, drifting
 aurora gradients, frosted glass cards, and soft glows.
 
+## Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fadmonk20%2Fmy-portfolio&project-name=lumen-portfolio&repository-name=lumen-portfolio&env=ADMIN_PASSWORD,SESSION_SECRET,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,NEXT_PUBLIC_CONTACT_EMAIL,NEXT_PUBLIC_CALENDLY_URL,NEXT_PUBLIC_SOCIAL_X,NEXT_PUBLIC_SOCIAL_LINKEDIN,NEXT_PUBLIC_SOCIAL_GITHUB&envDescription=Admin%20password%2C%20session%20secret%2C%20Supabase%20keys%2C%20and%20contact%20links.%20See%20the%20README%20for%20details.&envLink=https%3A%2F%2Fgithub.com%2Fadmonk20%2Fmy-portfolio%23environment-variables)
+
+One click will fork the repo, prompt you for the environment variables listed
+below, and deploy to production. You still need a Supabase project first —
+see [Supabase setup](#1-supabase-setup) below.
+
 ## Features
 
 - Single-page site: Hero · Services · About · Portfolio · Contact
@@ -44,12 +52,18 @@ npm install
 cp .env.local.example .env.local
 ```
 
-Then fill in the values. Notably:
-
-- `ADMIN_PASSWORD` — any long string you'll remember.
-- `SESSION_SECRET` — random 64-hex string. Generate one with
-  `openssl rand -hex 32`.
-- `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_CALENDLY_URL`, and the socials.
+| Variable | Required | Purpose |
+|---|---|---|
+| `ADMIN_PASSWORD` | ✅ | Unlocks `/admin`. Use a long random string. |
+| `SESSION_SECRET` | ✅ | HMAC key for the session cookie. Generate with `openssl rand -hex 32`. |
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | From Supabase → Settings → API. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | From Supabase → Settings → API. |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Server-only key used by admin + contact routes. Never expose. |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | ✅ | The `mailto:` address in the contact section. |
+| `NEXT_PUBLIC_CALENDLY_URL` | optional | Calendly link; hides the booking card if blank. |
+| `NEXT_PUBLIC_SOCIAL_X` | optional | X (Twitter) profile URL. |
+| `NEXT_PUBLIC_SOCIAL_LINKEDIN` | optional | LinkedIn profile URL. |
+| `NEXT_PUBLIC_SOCIAL_GITHUB` | optional | GitHub profile URL. |
 
 ### 4. Run
 
@@ -72,12 +86,16 @@ Visit:
 
 ## Deploying to Vercel
 
+The fastest path is the [one-click button at the top](#deploy). Otherwise:
+
 1. Push the repo to GitHub.
 2. Import the repo at [vercel.com/new](https://vercel.com/new).
-3. Add all env vars from `.env.local.example` to **Project → Settings →
-   Environment Variables**. Be sure to set `NODE_ENV=production` (Vercel sets
-   this automatically) so the session cookie is marked `Secure`.
-4. Deploy.
+3. Add every variable from the [Environment variables](#3-environment-variables)
+   table to **Project → Settings → Environment Variables** (Production +
+   Preview + Development). `NODE_ENV=production` is set automatically so the
+   session cookie gets the `Secure` flag.
+4. Deploy. Use the `*.vercel.app` URL to verify, then add a custom domain
+   under **Project → Domains** if desired.
 
 ## Tech
 
