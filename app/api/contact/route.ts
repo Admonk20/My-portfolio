@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { airtableCreate, airtableConfigured } from "@/lib/airtable";
 
 export const runtime = "nodejs";
+
+const MESSAGES_TABLE = "Messages";
 
 type Body = {
   name?: unknown;
@@ -30,19 +32,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Message too long" }, { status: 400 });
   }
 
-  try {
-    const client = getSupabaseAdmin();
-    const { error } = await client.from("messages").insert({
-      name: name || null,
-      email: email || null,
-      message,
-    });
-    if (error) throw error;
-  } catch (err) {
-    // If Supabase isn't configured or the insert fails, still log and accept
-    // so the user isn't blocked. The form also shows the mailto fallback.
-    // eslint-disable-next-line no-console
-    console.error("contact insert failed:", err);
+  if (!airtableConfigured()) {
+    return NextResponse.json(
+      {
+        error:
+          "Contact storage isn't configured yet. Please email directly — the mailto link is right below the form.",
+      },
+      { status: 503 },
+    );
+  }
+
+  const record = await airtableCreate(MESSAGES_TABLE, {
+    Name: name || undefined,
+    Email: email || undefined,
+    Message: message,
+  });
+
+  if (!record) {
     return NextResponse.json(
       {
         error:
